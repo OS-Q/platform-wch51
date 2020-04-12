@@ -28,7 +28,7 @@
   ],
   "frameworks": {
     "mbed": {
-      "package": "framework-N2",
+      "package": "framework-N02",
       "script": "builder/frameworks/mbed.py"
     },
     "zephyr": {
@@ -41,10 +41,10 @@
       "type": "toolchain",
       "version": ">=1.60301.0"
     },
-    "framework-N2": {
+    "framework-N02": {
       "type": "framework",
       "optional": true,
-      "version": "git@github.com:OS-Q/N02.git"
+      "version": "~1.0.0"
     },
     "framework-zephyr": {
       "type": "framework",
