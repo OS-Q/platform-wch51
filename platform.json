@@ -37,14 +37,10 @@
     }
   },
   "packages": {
-    "toolchain-gccarmnoneeabi": {
-      "type": "toolchain",
-      "version": ">=1.60301.0"
-    },
     "framework-N02": {
       "type": "framework",
       "optional": true,
-      "version": "~1.0.0"
+      "version": "~6.51401.200402"
     },
     "framework-zephyr": {
       "type": "framework",
@@ -114,6 +110,10 @@
     "framework-zephyr-mcuboot": {
       "optional": true,
       "version": "~0.20200.200219"
+    },
+    "toolchain-gccarmnoneeabi": {
+      "type": "toolchain",
+      "version": ">=1.60301.0"
     },
     "tool-openocd": {
       "type": "debugger",
