@@ -1,16 +1,16 @@
 {
   "name": "P04",
   "title": "Platform P04",
-  "description": "The Intel MCS-51 (commonly termed 8051) is an internally Harvard architecture, complex instruction set computer (CISC) instruction set, single chip microcontroller (uC) series developed by Intel in 1980 for use in embedded systems.",
-  "homepage": "https://en.wikipedia.org/wiki/Intel_MCS-51",
+  "description": "WCH CH55x USB 1T 8051 MCU.",
+  "homepage": "http://www.wch.cn/products/category/5.html",
   "license": "Apache-2.0",
   "version": "0.0.1",
   "keywords": [
-      "dev-platform",
-      "Intel",
-      "MCS-51",
-      "8051",
-      "CISC"
+    "OS-Q",
+    "dev-platform",
+    "WCH",
+    "CH55x",
+    "8051"
   ],
   "engines": {
     "platformio": "^5"

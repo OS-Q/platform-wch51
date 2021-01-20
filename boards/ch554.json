@@ -16,7 +16,7 @@
     "maximum_ram_size": 1024,
     "maximum_size": 16384
   },
-  "name": "Generic CH554",
-  "url": "http://www.nuvoton.com/hq/products/microcontrollers/8bit-8051-mcus/low-pin-count-8051-series/n79e855/",
+  "name": "CH554",
+  "url": "http://www.wch.cn/products/CH554.html",
   "vendor": "WCH"
 }

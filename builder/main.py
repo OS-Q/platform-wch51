@@ -5,8 +5,6 @@ from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
 
 
 def __getSize(size_type, env):
-    # FIXME: i don't really know how to do this right. see:
-    #        https://community.platformio.org/t/missing-integers-in-board-extra-flags-in-board-json/821
     return str(env.BoardConfig().get("build", {
         # defaults
         "size_heap": 1024,
