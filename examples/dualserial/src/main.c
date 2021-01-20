@@ -52,7 +52,7 @@ USB_SETUP_REQ   SetupReqBuf;												   //暂存Setup包
 __code uint8_t DevDesc[] = {0x12, 0x01, 0x10, 0x01, 0x00, 0x00, 0x00, DEFAULT_ENDP0_SIZE,
 							0x03, 0x04, 0x10, 0x60, 0x00, 0x05, 0x01, 0x02,
 							0x03, 0x01
-						   };
+						};
 __code uint8_t CfgDesc[] =
 {
 	0x09, 0x02, sizeof(CfgDesc) & 0xff, sizeof(CfgDesc) >> 8,
@@ -408,7 +408,7 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB)					   //USB中断服务程�
 							T2MOD |= bTMR_CLK; //最高计数时钟
 
 							divisor = UsbSetupBuf->wValueL |
-									  (UsbSetupBuf->wValueH << 8);
+									(UsbSetupBuf->wValueH << 8);
 							divisor &= 0x3fff; //没法发生小数取整数部分，baudrate = 48M/16/divisor
 
 

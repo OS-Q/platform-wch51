@@ -1,11 +1,5 @@
-/*--------------------------------------------------------------------------------*/
-/* --- STC MCU International Limited -----------------------------------*/
-/* --- STC 15 Series I/O simulate serial port ----------------------------*/
-/* --- Web: www.STCMCU.com -----------------------------------------*/
-/* If you want to use the program or the program referenced in the */
-/* article, please specify in which data and procedures from STC */
-/*-------------------------------------------------------------------------------*/
-#include <stc12.h>
+#include <ch554.h>
+
 #define SYSCLOCK    11059200
 #define BAUDRATE    9600
 #define BAUDTMR     ((0 - (SYSCLOCK / 3 / BAUDRATE)) & 0xFFFF)
@@ -16,7 +10,7 @@
 #define _RXB _P3_0
 #define TXB P3_1
 #define _TXB _P3_1
-		
+
 //define UART TX/RX port
 typedef __bit BOOL;
 typedef unsigned char BYTE;
@@ -39,7 +33,7 @@ void UART_INIT();
 void putchar(unsigned char c)
 {
 	while (!TEND) ;
-	TBUF=c; TEND=0; TING=1;	
+	TBUF=c; TEND=0; TING=1;
 }
 
 #ifdef UART_TEST
@@ -50,7 +44,7 @@ void uart_printf(const unsigned char *str)
 {
 	while (*str) putchar(*str++);
 }
-	
+
 void main()
 {
 	UART_INIT();
@@ -65,7 +59,7 @@ void main()
 		REND = 0;
 		buf[r++ & 0x0f] = RBUF;
 		}
-		
+
 	if (TEND)
 		{
 		if (t != r)
@@ -75,7 +69,7 @@ void main()
 			TING = 1;
 			}
 		}
-	
+
 	}
 }
 #endif
@@ -93,12 +87,12 @@ void main()
 void _tm1() __interrupt 3 __using 1
 {
 	__asm
-		jb	_RING,00002$	
-		jb	_RXB,00000$	
+		jb	_RING,00002$
+		jb	_RXB,00000$
 		setb	_RING
 		mov	r5,#4
 		mov	r7,#9
-		sjmp	00000$	
+		sjmp	00000$
 	00002$:
 		djnz	r5, 00000$	;  if (--RCNT==0)
 		mov	r5,#3		; RCNT=3
@@ -108,13 +102,13 @@ void _tm1() __interrupt 3 __using 1
 		setb	_REND
 		sjmp	00000$
 	00001$:
-		mov	a,r3		; r3=RDAT	
+		mov	a,r3		; r3=RDAT
 		mov	C,_RXB		; (C+RDAT)>>1
 		rrc	a
 		mov	r3,a
 	00000$:
 	__endasm;
-	
+
 	__asm
 		djnz	r4,00010$
 		mov	r4,#3
