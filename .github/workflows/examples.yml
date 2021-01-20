@@ -11,6 +11,8 @@ jobs:
         python-version: [3.8]
         example:
           - "examples/native-blink"
+          - "examples/dualserial"
+          - "examples/adc"
 
     runs-on: ${{ matrix.os }}
     steps:
