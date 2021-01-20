@@ -1,0 +1,22 @@
+{
+  "build": {
+    "core": "naked",
+    "extra_flags": "-DNAKED_ARCH_MCS51",
+    "f_cpu": "24000000L",
+    "size_iram": 256,
+    "size_xram": 256,
+    "size_code": 16384,
+    "size_heap": 128,
+    "mcu": "ch554",
+    "cpu": "mcs51",
+    "variant": "ch554"
+  },
+  "frameworks": [],
+  "upload": {
+    "maximum_ram_size": 1024,
+    "maximum_size": 16384
+  },
+  "name": "Generic CH554",
+  "url": "http://www.nuvoton.com/hq/products/microcontrollers/8bit-8051-mcus/low-pin-count-8051-series/n79e855/",
+  "vendor": "WCH"
+}

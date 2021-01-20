@@ -1,87 +1,113 @@
 import sys
-from platform import system
-from os import makedirs
-from os.path import isdir, join
+from os.path import join
 
-from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
-                          Builder, Default, DefaultEnvironment)
+from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
+
+
+def __getSize(size_type, env):
+    # FIXME: i don't really know how to do this right. see:
+    #        https://community.platformio.org/t/missing-integers-in-board-extra-flags-in-board-json/821
+    return str(env.BoardConfig().get("build", {
+        # defaults
+        "size_heap": 1024,
+        "size_iram": 256,
+        "size_xram": 65536,
+        "size_code": 65536,
+    })[size_type])
+
+
+def _parseSdccFlags(flags):
+    assert flags
+    if isinstance(flags, list):
+        flags = " ".join(flags)
+    flags = str(flags)
+    parsed_flags = []
+    unparsed_flags = []
+    prev_token = ""
+    for token in flags.split(" "):
+        if prev_token.startswith("--") and not token.startswith("-"):
+            parsed_flags.extend([prev_token, token])
+            prev_token = ""
+            continue
+        if prev_token:
+            unparsed_flags.append(prev_token)
+        prev_token = token
+    unparsed_flags.append(prev_token)
+    return (parsed_flags, unparsed_flags)
+
 
 env = DefaultEnvironment()
-platform = env.PioPlatform()
-board = env.BoardConfig()
+board_config = env.BoardConfig()
 
 env.Replace(
-    AR="arm-none-eabi-ar",
-    AS="arm-none-eabi-as",
-    CC="arm-none-eabi-gcc",
-    CXX="arm-none-eabi-g++",
-    GDB="arm-none-eabi-gdb",
-    OBJCOPY="arm-none-eabi-objcopy",
-    RANLIB="arm-none-eabi-ranlib",
-    SIZETOOL="arm-none-eabi-size",
+    AR="sdar",
+    AS="sdas8051",
+    CC="sdcc",
+    LD="sdld",
+    RANLIB="sdranlib",
+    OBJCOPY="sdobjcopy",
+    OBJSUFFIX=".rel",
+    LIBSUFFIX=".lib",
+    SIZETOOL=join(env.PioPlatform().get_dir(), "builder", "size.py"),
 
-    ARFLAGS=["rc"],
+    SIZECHECKCMD='$PYTHONEXE $SIZETOOL $SOURCES',
+    SIZEPRINTCMD='"$PYTHONEXE" $SIZETOOL $SOURCES',
+    SIZEPROGREGEXP=r"^ROM/EPROM/FLASH\s+[a-fx\d]+\s+[a-fx\d]+\s+(\d+).*",
 
-    SIZEPROGREGEXP=r"^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx)\s+(\d+).*",
-    SIZEDATAREGEXP=r"^(?:\.data|\.bss|\.noinit)\s+(\d+).*",
-    SIZECHECKCMD="$SIZETOOL -A -d $SOURCES",
-    SIZEPRINTCMD='$SIZETOOL -B -d $SOURCES',
-
-    PROGSUFFIX=".elf"
+    PROGNAME="firmware",
+    PROGSUFFIX=".hex"
 )
-
-# Allow user to override via pre:script
-if env.get("PROGNAME", "program") == "program":
-    env.Replace(PROGNAME="firmware")
 
 env.Append(
-    BUILDERS=dict(
-        ElfToBin=Builder(
-            action=env.VerboseAction(" ".join([
-                "$OBJCOPY",
-                "-O",
-                "binary",
-                "$SOURCES",
-                "$TARGET"
-            ]), "Building $TARGET"),
-            suffix=".bin"
-        ),
-        ElfToHex=Builder(
-            action=env.VerboseAction(" ".join([
-                "$OBJCOPY",
-                "-O",
-                "ihex",
-                "-R",
-                ".eeprom",
-                "$SOURCES",
-                "$TARGET"
-            ]), "Building $TARGET"),
-            suffix=".hex"
-        )
-    )
+    ASFLAGS=env.get("CCFLAGS", [])[:],
+
+    CFLAGS=[
+        "--std-sdcc11"
+    ],
+
+    CCFLAGS=[
+        "--opt-code-size",  # optimize for size
+        "--peep-return",    # peephole optimization for return instructions
+        "-m%s" % board_config.get("build.cpu")
+    ],
+
+    CPPDEFINES=[
+        "F_CPU=$BOARD_F_CPU",
+        "HEAP_SIZE=" + __getSize("size_heap", env)
+    ],
+
+    LINKFLAGS=[
+        "-m%s" % board_config.get("build.cpu"),
+        "--iram-size", __getSize("size_iram", env),
+        "--xram-size", __getSize("size_xram", env),
+        "--code-size", __getSize("size_code", env),
+        "--out-fmt-ihx"
+    ]
 )
 
-if not env.get("PIOFRAMEWORK"):
-    env.SConscript("frameworks/_bare.py")
+if int(ARGUMENTS.get("PIOVERBOSE", 0)):
+    env.Prepend(UPLOADERFLAGS=["-v"])
+
+# parse manually SDCC flags
+if env.get("BUILD_FLAGS"):
+    _parsed, _unparsed = _parseSdccFlags(env.get("BUILD_FLAGS"))
+    env.Append(CCFLAGS=_parsed)
+    env['BUILD_FLAGS'] = _unparsed
+
+project_sdcc_flags = None
+if env.get("SRC_BUILD_FLAGS"):
+    project_sdcc_flags, _unparsed = _parseSdccFlags(env.get("SRC_BUILD_FLAGS"))
+    env['SRC_BUILD_FLAGS'] = _unparsed
 
 #
 # Target: Build executable and linkable firmware
 #
 
-if "zephyr" in env.get("PIOFRAMEWORK", []):
-    env.SConscript(
-        join(platform.get_package_dir(
-            "framework-zephyr"), "scripts", "platformio", "platformio-build-pre.py"),
-        exports={"env": env}
-    )
+target_firm = env.BuildProgram()
 
-target_elf = None
-if "nobuild" in COMMAND_LINE_TARGETS:
-    target_elf = join("$BUILD_DIR", "${PROGNAME}.elf")
-    target_firm = join("$BUILD_DIR", "${PROGNAME}.bin")
-else:
-    target_elf = env.BuildProgram()
-    target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+if project_sdcc_flags:
+    env.Import("projenv")
+    projenv.Append(CCFLAGS=project_sdcc_flags)
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
@@ -91,106 +117,33 @@ target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 #
 
 target_size = env.Alias(
-    "size", target_elf,
+    "size", target_firm,
     env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
 AlwaysBuild(target_size)
 
 #
-# Target: Upload by default .bin file
+# Target: Upload firmware
 #
 
 upload_protocol = env.subst("$UPLOAD_PROTOCOL")
 upload_actions = []
 
-if upload_protocol == "mbed":
-    upload_actions = [
-        env.VerboseAction(env.AutodetectUploadPort, "Looking for upload disk..."),
-        env.VerboseAction(env.UploadToDisk, "Uploading $SOURCE")
-    ]
-
-elif upload_protocol.startswith("jlink"):
-
-    def _jlink_cmd_script(env, source):
-        build_dir = env.subst("$BUILD_DIR")
-        if not isdir(build_dir):
-            makedirs(build_dir)
-        script_path = join(build_dir, "upload.jlink")
-        commands = [
-            "h",
-            "loadbin %s, %s" % (source, board.get(
-                "upload.offset_address", "0x0")),
-            "r",
-            "q"
-        ]
-        with open(script_path, "w") as fp:
-            fp.write("\n".join(commands))
-        return script_path
-
+if upload_protocol == "stcgal":
+    f_cpu_khz = int(board_config.get("build.f_cpu")) / 1000
+    stcgal_protocol = board_config.get("upload.stcgal_protocol")
+    stcgal = join(env.PioPlatform().get_package_dir("tool-stcgal") or "", "stcgal.py")
     env.Replace(
-        __jlink_cmd_script=_jlink_cmd_script,
-        UPLOADER="JLink.exe" if system() == "Windows" else "JLinkExe",
         UPLOADERFLAGS=[
-            "-device", board.get("debug", {}).get("jlink_device"),
-            "-speed", "4000",
-            "-if", ("jtag" if upload_protocol == "jlink-jtag" else "swd"),
-            "-autoconnect", "1"
+            "-P", stcgal_protocol,
+            "-p", "$UPLOAD_PORT",
+            "-t", int(f_cpu_khz),
+            "-a"
         ],
-        UPLOADCMD='$UPLOADER $UPLOADERFLAGS -CommanderScript "${__jlink_cmd_script(__env__, SOURCE)}"'
-    )
-    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+        UPLOADCMD='"$PYTHONEXE" %s $UPLOADERFLAGS $SOURCE' % stcgal)
 
-elif upload_protocol.startswith("blackmagic"):
-    env.Replace(
-        UPLOADER="$GDB",
-        UPLOADERFLAGS=[
-            "-nx",
-            "--batch",
-            "-ex", "target extended-remote $UPLOAD_PORT",
-            "-ex", "monitor %s_scan" %
-            ("jtag" if upload_protocol == "blackmagic-jtag" else "swdp"),
-            "-ex", "attach 1",
-            "-ex", "load",
-            "-ex", "compare-sections",
-            "-ex", "kill"
-        ],
-        UPLOADCMD="$UPLOADER $UPLOADERFLAGS $BUILD_DIR/${PROGNAME}.elf"
-    )
     upload_actions = [
-        env.VerboseAction(env.AutodetectUploadPort, "Looking for BlackMagic port..."),
-        env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
-    ]
-
-elif upload_protocol == "cmsis-dap":
-    debug_server = board.get("debug.tools", {}).get(
-        upload_protocol, {}).get("server")
-    assert debug_server
-
-    if debug_server.get("package") == "tool-pyocd":
-        env.Replace(
-            UPLOADER=join(platform.get_package_dir("tool-pyocd") or "",
-                          "pyocd-flashtool.py"),
-            UPLOADERFLAGS=debug_server.get("arguments", [])[1:],
-            UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS $SOURCE'
-        )
-    elif debug_server.get("package") == "tool-openocd":
-        openocd_args = [
-            "-d%d" % (2 if int(ARGUMENTS.get("PIOVERBOSE", 0)) else 1)
-        ]
-        openocd_args.extend(debug_server.get("arguments", []))
-        openocd_args.extend([
-            "-c", "program {$SOURCE} %s verify reset; shutdown;" %
-            board.get("upload.offset_address", "")
-        ])
-        openocd_args = [
-            f.replace("$PACKAGE_DIR",
-                      platform.get_package_dir("tool-openocd") or "")
-            for f in openocd_args
-        ]
-        env.Replace(
-            UPLOADER="openocd",
-            UPLOADERFLAGS=openocd_args,
-            UPLOADCMD="$UPLOADER $UPLOADERFLAGS")
-    upload_actions = [
+        env.VerboseAction(env.AutodetectUploadPort,
+                        "Looking for upload port..."),
         env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
     ]
 
@@ -198,13 +151,13 @@ elif upload_protocol == "cmsis-dap":
 elif upload_protocol == "custom":
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
 
-if not upload_actions:
+else:
     sys.stderr.write("Warning! Unknown upload protocol %s\n" % upload_protocol)
 
 AlwaysBuild(env.Alias("upload", target_firm, upload_actions))
 
 #
-# Default targets
+# Setup default targets
 #
 
 Default([target_buildprog, target_size])
