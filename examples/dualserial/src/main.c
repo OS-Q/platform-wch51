@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ch554.h>
-#include <ch554_usb.h>
-#include <debug.h>
+#include "ch554_usb.h"
+#include "ch554.h"
+#include "debug.h"
+#include "adc.h"
 
 /*
  * Use T0 to count the SOF_Count every 1ms
