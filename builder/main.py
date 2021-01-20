@@ -100,7 +100,6 @@ if env.get("SRC_BUILD_FLAGS"):
 #
 # Target: Build executable and linkable firmware
 #
-
 target_firm = env.BuildProgram()
 
 if project_sdcc_flags:
@@ -113,7 +112,6 @@ target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 #
 # Target: Print binary size
 #
-
 target_size = env.Alias(
     "size", target_firm,
     env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
@@ -122,7 +120,6 @@ AlwaysBuild(target_size)
 #
 # Target: Upload firmware
 #
-
 upload_protocol = env.subst("$UPLOAD_PROTOCOL")
 upload_actions = []
 

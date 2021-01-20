@@ -1,11 +1,9 @@
 #######################################################
-
 # toolchain
 CC = sdcc
 OBJCOPY = objcopy
 PACK_HEX = packihx
 WCHISP ?= wchisptool -g -f
-
 #######################################################
 
 FREQ_SYS ?= 24000000
@@ -44,7 +42,7 @@ $(TARGET).hex: $(TARGET).ihx
 
 $(TARGET).bin: $(TARGET).ihx
 	$(OBJCOPY) -I ihex -O binary $(TARGET).ihx $(TARGET).bin
-	
+
 flash: $(TARGET).bin pre-flash
 	$(WCHISP) $(TARGET).bin
 

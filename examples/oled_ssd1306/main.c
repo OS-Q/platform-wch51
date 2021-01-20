@@ -22,10 +22,10 @@ void main() {
     P1_MOD_OC = P1_MOD_OC & ~(1<<LED_PIN);
     P1_DIR_PU = P1_DIR_PU |	(1<<LED_PIN);
 
-    while (1) {
-    	mDelaymS(100);
+    while (1)
+    {
+        mDelaymS(100);
         LED = !LED;
         ssd1306Init();
-
     }
 }
