@@ -1,6 +1,6 @@
 {
-  "name": "P04",
-  "title": "Platform P04",
+  "name": "P16",
+  "title": "Platform P16",
   "description": "WCH CH55x USB 1T 8051 MCU.",
   "homepage": "http://www.wch.cn/products/category/5.html",
   "license": "Apache-2.0",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P04.git"
+    "url": "https://github.com/OS-Q/P16.git"
   },
   "packageRepositories": [
     "http://182.61.61.133/link/toolchain/manifest.json",
