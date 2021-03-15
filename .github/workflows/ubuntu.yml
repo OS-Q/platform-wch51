@@ -1,0 +1,51 @@
+name: ubuntu
+
+on:
+  push:
+    branches:
+      - master
+      - github_actions
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - master
+      - github_actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7]
+        examples:
+          - "examples/native-blink"
+          - "examples/dualserial"
+          - "examples/adc"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/S03/archive/master.zip
+          qio platform install file://.
+
+      - name: Build
+        run: |
+          qio run -d ${{ matrix.examples }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ubuntu-build-P13
+          path: ${{ matrix.examples }}/build

@@ -1,10 +1,13 @@
 {
-  "name": "P16",
-  "title": "Platform P16",
+  "name": "P13",
+  "title": "Platform P13",
   "description": "WCH CH55x USB 1T 8051 MCU.",
   "homepage": "http://www.wch.cn/products/category/5.html",
   "license": "Apache-2.0",
   "version": "1.0.0",
+  "engines": {
+    "platformio": "^5"
+  },
   "keywords": [
     "OS-Q",
     "dev-platform",
@@ -12,26 +15,17 @@
     "CH55x",
     "8051"
   ],
-  "engines": {
-    "platformio": "^5"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P16.git"
+    "url": "https://github.com/OS-Q/P13.git"
   },
-  "packageRepositories": [
-    "http://182.61.61.133/link/toolchain/manifest.json",
-    "http://182.61.61.133/link/toolchain/openocd.json",
-    "http://182.61.61.133/link/framework/manifest.json",
-    "http://182.61.61.133/link/platformio.json"
-  ],
   "frameworks": {
     "arduino": {
-      "package": "A04",
+      "package": "A13A",
       "script": "builder/frameworks/arduino.py"
     },
     "native": {
-      "package": "N04",
+      "package": "E13A",
       "script": "builder/frameworks/native.py"
     }
   },
@@ -41,17 +35,17 @@
       "owner": "platformio",
       "version": "~1.30804.10766"
     },
-    "A04": {
+    "A13A": {
       "type": "framework",
       "optional": true,
       "owner": "OS-Q",
-      "version": "https://github.com/OS-Q/A04.git"
+      "version": "https://github.com/OS-Q/A13A.git"
     },
-    "N04": {
+    "E13A": {
       "type": "framework",
       "optional": true,
       "owner": "OS-Q",
-      "version": "https://github.com/OS-Q/N04.git"
+      "version": "https://github.com/OS-Q/E13A.git"
     }
   }
 }
