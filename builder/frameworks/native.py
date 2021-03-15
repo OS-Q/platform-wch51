@@ -53,13 +53,13 @@ env.Append(
     ],
 
     CPPPATH=[
-        join(FRAMEWORK_DIR,"inc"),
+        join(FRAMEWORK_DIR,"include"),
         "$PROJECTSRC_DIR",
     ]
 )
 
 env.BuildSources(
     join("$BUILD_DIR", "native"),
-    join(FRAMEWORK_DIR,"src"),
+    join(FRAMEWORK_DIR,"include"),
     src_filter=["-<*>"] + [" +<%s>" % f for f in get_core_files()]
 )
