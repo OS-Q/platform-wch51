@@ -46,10 +46,7 @@ def get_core_files():
 
 env.Append(
     CFLAGS=[
-        "--model-small",
-        "-DFREQ_SYS=$(F_CPU)",
-        "-mmcs51",
-        "-V"
+        "--model-small"
     ],
 
     CPPPATH=[
