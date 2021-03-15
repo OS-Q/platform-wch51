@@ -47,14 +47,9 @@ def get_core_files():
 env.Append(
     CFLAGS=[
         "--model-small",
-        "--xram-loc 0x0000",
+        "-DFREQ_SYS=$(F_CPU)",
         "-mmcs51",
         "-V"
-    ],
-
-    CPPDEFINES=[
-        "USE_STDPERIPH_DRIVER",
-        "USE_STDINT"
     ],
 
     CPPPATH=[
