@@ -44,10 +44,21 @@ env.Replace(
     LD="sdld",
     RANLIB="sdranlib",
     OBJCOPY="sdobjcopy",
+    WCHISP="wchisptool -g -f",
     OBJSUFFIX=".rel",
     LIBSUFFIX=".lib",
     SIZETOOL=join(env.PioPlatform().get_dir(), "builder", "size.py"),
-
+    CFLAGS=[
+        "-m%s" % board_config.get("build.cpu")
+    ],
+    CPPDEFINES=[
+        "F_CPU=$BOARD_F_CPU"
+    ],
+    LIBPATH=[
+        join(env.PioPlatform().get_package_dir("toolchain-sdcc"),
+            "%s" % "lib" if system() == "Windows" else join("share", "sdcc", "lib"),
+            board_config.get("build.cpu"))
+    ],
     SIZECHECKCMD='$PYTHONEXE $SIZETOOL $SOURCES',
     SIZEPRINTCMD='"$PYTHONEXE" $SIZETOOL $SOURCES',
     SIZEPROGREGEXP=r"^ROM/EPROM/FLASH\s+[a-fx\d]+\s+[a-fx\d]+\s+(\d+).*",
@@ -61,12 +72,6 @@ env.Append(
 
     CFLAGS=[
         "--std-sdcc11"
-    ],
-
-    CCFLAGS=[
-        "--opt-code-size",  # optimize for size
-        "--peep-return",    # peephole optimization for return instructions
-        "-m%s" % board_config.get("build.cpu")
     ],
 
     CPPDEFINES=[

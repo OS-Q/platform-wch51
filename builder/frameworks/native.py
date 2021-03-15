@@ -17,7 +17,7 @@ assert isdir(FRAMEWORK_DIR)
 def get_core_files():
     command = [
         env.subst("$CC"), "-m%s" % board_config.get("build.cpu"),
-        "-D%s" % board_config.get("build.mcu")[0:8].upper(),
+        "-D%s" % board_config.get("build.mcu")[0:5].upper(),
         "-I.", "-I", "%s" % env.subst("$PROJECTSRC_DIR"),
         "-Wp-MM", "-E", "ch554.h"
     ]
@@ -45,7 +45,12 @@ def get_core_files():
 
 
 env.Append(
-    CFLAGS=["--opt-code-size"],
+    CFLAGS=[
+        "--model-small",
+        "--xram-loc 0x0000",
+        "-mmcs51",
+        "-V"
+    ],
 
     CPPDEFINES=[
         "USE_STDPERIPH_DRIVER",
