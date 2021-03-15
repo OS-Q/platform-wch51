@@ -1,5 +1,6 @@
 import sys
 from os.path import join
+from platform import system
 
 from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
 
@@ -51,34 +52,47 @@ env.Replace(
     CFLAGS=[
         "-m%s" % board_config.get("build.cpu")
     ],
-    SIZECHECKCMD='$PYTHONEXE $SIZETOOL $SOURCES',
-    SIZEPRINTCMD='"$PYTHONEXE" $SIZETOOL $SOURCES',
-    SIZEPROGREGEXP=r"^ROM/EPROM/FLASH\s+[a-fx\d]+\s+[a-fx\d]+\s+(\d+).*",
+
+    LINKFLAGS=[
+        "-m%s" % board_config.get("build.cpu"),
+        "--nostdlib",
+        "--code-size", board_config.get("build.size_code"),
+        "--iram-size", board_config.get("build.size_iram"),
+        "--xram-size", board_config.get("build.size_xram"),
+        "--out-fmt-ihx"
+    ],
+
+    LIBPATH=[
+        join(env.PioPlatform().get_package_dir("toolchain-sdcc"),
+            "%s" % "lib" if system() == "Windows" else join("share", "sdcc", "lib"),
+            board_config.get("build.cpu"))
+    ],
+    SIZEPROGREGEXP=r"^(?:HOME|GSINIT|GSFINAL|CODE|INITIALIZER)\s+([0-9]+).*",
+    SIZEDATAREGEXP=r"^(?:DATA|INITIALIZED)\s+([0-9]+).*",
+    SIZEEEPROMREGEXP=r"^(?:EEPROM)\s+([0-9]+).*",
+    SIZECHECKCMD="$SIZETOOL -A $SOURCES",
+    SIZEPRINTCMD='$SIZETOOL -d $SOURCES',
 
     PROGNAME="firmware",
     PROGSUFFIX=".hex"
 )
 
-env.Append(
-    ASFLAGS=env.get("CCFLAGS", [])[:],
+def _ldflags_for_ihx(env, ldflags):
+    ldflags = ["--out-fmt-ihx" if f == "--out-fmt-elf" else f for f in ldflags]
+    return ldflags
 
-    CFLAGS=[
-        "--std-sdcc11"
-    ],
+env.Append(
+    ASFLAGS=env.get("CFLAGS", [])[:],
 
     CPPDEFINES=[
         "F_CPU=$BOARD_F_CPU",
         "HEAP_SIZE=" + __getSize("size_heap", env)
-    ],
-
-    LINKFLAGS=[
-        "-m%s" % board_config.get("build.cpu"),
-        "--iram-size", __getSize("size_iram", env),
-        "--xram-size", __getSize("size_xram", env),
-        "--code-size", __getSize("size_code", env),
-        "--out-fmt-ihx"
     ]
 )
+
+# Allow user to override via pre:script
+if env.get("PROGNAME", "program") == "program":
+    env.Replace(PROGNAME="firmware")
 
 if int(ARGUMENTS.get("PIOVERBOSE", 0)):
     env.Prepend(UPLOADERFLAGS=["-v"])
@@ -114,15 +128,6 @@ target_size = env.Alias(
     env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
 AlwaysBuild(target_size)
 
-
-# custom upload tool
-elif upload_protocol == "custom":
-    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
-
-else:
-    sys.stderr.write("Warning! Unknown upload protocol %s\n" % upload_protocol)
-
-AlwaysBuild(env.Alias("upload", target_firm, upload_actions))
 
 #
 # Setup default targets
