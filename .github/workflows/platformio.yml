@@ -20,8 +20,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.7]
         example:
-          - "examples/native-blink"
-          - "examples/dualserial"
+          - "examples/blink"
           - "examples/adc"
 
     runs-on: ${{ matrix.os }}

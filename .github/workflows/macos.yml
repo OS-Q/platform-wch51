@@ -20,8 +20,7 @@ jobs:
       matrix:
         python-version: [3.7]
         examples:
-          - "examples/native-blink"
-          - "examples/dualserial"
+          - "examples/blink"
           - "examples/adc"
 
     steps:
