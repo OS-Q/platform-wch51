@@ -59,7 +59,7 @@ env.Replace(
         "--code-size", board_config.get("build.size_code"),
         "--iram-size", board_config.get("build.size_iram"),
         "--xram-size", board_config.get("build.size_xram"),
-        "--out-fmt-ihx"
+        "--out-fmt-elf"
     ],
 
     LIBPATH=[
@@ -74,7 +74,7 @@ env.Replace(
     SIZEPRINTCMD='$SIZETOOL -d $SOURCES',
 
     PROGNAME="firmware",
-    PROGSUFFIX=".hex"
+    PROGSUFFIX=".elf"
 )
 
 def _ldflags_for_ihx(env, ldflags):
@@ -83,6 +83,8 @@ def _ldflags_for_ihx(env, ldflags):
 
 env.Append(
     ASFLAGS=env.get("CFLAGS", [])[:],
+    __ldflags_for_ihx=_ldflags_for_ihx,
+    ldflags_for_ihx="${__ldflags_for_ihx(__env__, LINKFLAGS)}"
 
     CPPDEFINES=[
         "F_CPU=$BOARD_F_CPU",
@@ -93,6 +95,24 @@ env.Append(
 # Allow user to override via pre:script
 if env.get("PROGNAME", "program") == "program":
     env.Replace(PROGNAME="firmware")
+
+#
+# Target: Build executable and linkable firmware
+#
+
+target_elf = None
+if "nobuild" in COMMAND_LINE_TARGETS:
+    target_elf = join("$BUILD_DIR", "${PROGNAME}.elf")
+    target_firm = join("$BUILD_DIR", "${PROGNAME}.ihx")
+else:
+    target_elf = env.BuildProgram()
+    target_firm = env.Command(
+        join("$BUILD_DIR", "${PROGNAME}.ihx"),
+        env['PIOBUILDFILES'],
+        env['LINKCOM'].replace("$LINKFLAGS", "$ldflags_for_ihx")
+    )
+    env.Depends(target_firm, target_elf)
+
 
 if int(ARGUMENTS.get("PIOVERBOSE", 0)):
     env.Prepend(UPLOADERFLAGS=["-v"])
