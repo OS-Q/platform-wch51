@@ -4,7 +4,6 @@ from platform import system
 
 from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
 
-
 def __getSize(size_type, env):
     return str(env.BoardConfig().get("build", {
         # defaults
@@ -13,27 +12,6 @@ def __getSize(size_type, env):
         "size_xram": 65536,
         "size_code": 65536,
     })[size_type])
-
-
-def _parseSdccFlags(flags):
-    assert flags
-    if isinstance(flags, list):
-        flags = " ".join(flags)
-    flags = str(flags)
-    parsed_flags = []
-    unparsed_flags = []
-    prev_token = ""
-    for token in flags.split(" "):
-        if prev_token.startswith("--") and not token.startswith("-"):
-            parsed_flags.extend([prev_token, token])
-            prev_token = ""
-            continue
-        if prev_token:
-            unparsed_flags.append(prev_token)
-        prev_token = token
-    unparsed_flags.append(prev_token)
-    return (parsed_flags, unparsed_flags)
-
 
 env = DefaultEnvironment()
 board_config = env.BoardConfig()
@@ -110,13 +88,6 @@ else:
         env['LINKCOM'].replace("$LINKFLAGS", "$ldflags_for_ihx")
     )
     env.Depends(target_firm, target_elf)
-
-#
-# Target: Build executable and linkable firmware
-#
-if project_sdcc_flags:
-    env.Import("projenv")
-    projenv.Append(CCFLAGS=project_sdcc_flags)
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
