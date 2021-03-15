@@ -52,7 +52,10 @@ env.Replace(
     CFLAGS=[
         "-m%s" % board_config.get("build.cpu")
     ],
-
+    CPPDEFINES=[
+        "F_CPU=$BOARD_F_CPU",
+        "HEAP_SIZE=" + __getSize("size_heap", env)
+    ],
     LINKFLAGS=[
         "-m%s" % board_config.get("build.cpu"),
         "--nostdlib",
@@ -85,11 +88,6 @@ env.Append(
     ASFLAGS=env.get("CFLAGS", [])[:],
     __ldflags_for_ihx=_ldflags_for_ihx,
     ldflags_for_ihx="${__ldflags_for_ihx(__env__, LINKFLAGS)}"
-
-    CPPDEFINES=[
-        "F_CPU=$BOARD_F_CPU",
-        "HEAP_SIZE=" + __getSize("size_heap", env)
-    ]
 )
 
 # Allow user to override via pre:script
