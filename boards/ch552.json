@@ -7,7 +7,7 @@
     "size_xram": 256,
     "size_code": 16384,
     "size_heap": 128,
-    "mcu": "ch554",
+    "mcu": "ch552",
     "cpu": "mcs51",
     "variant": "ch552"
   },
@@ -19,7 +19,7 @@
     "maximum_ram_size": 1024,
     "maximum_size": 16384
   },
-  "name": "CH554",
-  "url": "http://www.wch.cn/products/CH554.html",
+  "name": "ch552",
+  "url": "http://www.wch.cn/products/ch552.html",
   "vendor": "WCH"
 }

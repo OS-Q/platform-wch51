@@ -11,7 +11,7 @@ assert isdir(FRAMEWORK_DIR)
 
 env.Append(
     CPPDEFINES=[
-        "ARDUINO_ARCH_STM8",
+        "ARDUINO_ARCH_MCS51",
         ("ARDUINO", 10802),
         ("double", "float"),
         "USE_STDINT",
@@ -19,12 +19,7 @@ env.Append(
     ],
 
     CPPPATH=[
-        join(FRAMEWORK_DIR, "cores", env.BoardConfig().get("build.core")),
-        join(FRAMEWORK_DIR, "STM8S_StdPeriph_Driver", "inc")
-    ],
-
-    LIBPATH=[
-        join(FRAMEWORK_DIR, "STM8S_StdPeriph_Driver", "lib")
+        join(FRAMEWORK_DIR, "cores", env.BoardConfig().get("build.core"))
     ],
 
     LIBS=[board_config.get("build.mcu")[0:8].upper()],
@@ -44,7 +39,7 @@ if "build.variant" in env.BoardConfig():
     env.Append(
         CPPPATH=[
             join(FRAMEWORK_DIR, "variants",
-                 env.BoardConfig().get("build.variant"))
+                env.BoardConfig().get("build.variant"))
         ]
     )
     libs.append(env.BuildLibrary(
