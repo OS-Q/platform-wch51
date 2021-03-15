@@ -2,7 +2,8 @@ build: off
 environment:
 
   matrix:
-    - PLATFORMIO_PROJECT_DIR: "examples/native-blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/adc"
 
 install:
 - cmd: git submodule update --init --recursive

@@ -24,7 +24,7 @@ def get_core_files():
 
     result = exec_command(
         command,
-        cwd=join(FRAMEWORK_DIR,"inc"),
+        cwd=join(FRAMEWORK_DIR,"include"),
         env=env['ENV']
     )
 
