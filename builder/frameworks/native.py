@@ -24,7 +24,7 @@ def get_core_files():
 
     result = exec_command(
         command,
-        cwd=join(FRAMEWORK_DIR,"include"),
+        cwd=join(FRAMEWORK_DIR,"inc"),
         env=env['ENV']
     )
 
@@ -37,7 +37,7 @@ def get_core_files():
     src_files = []
     includes = result['out']
     for inc in includes.split(" "):
-        if "_" not in inc or ".h" not in inc or ".c" in inc:
+        if "_" not in inc or ".h" not in inc :
             continue
         src_files.append(basename(inc).replace(".h", ".c").strip())
 
@@ -50,13 +50,13 @@ env.Append(
     ],
 
     CPPPATH=[
-        join(FRAMEWORK_DIR,"include"),
+        join(FRAMEWORK_DIR,"inc"),
         "$PROJECTSRC_DIR",
     ]
 )
 
 env.BuildSources(
     join("$BUILD_DIR", "native"),
-    join(FRAMEWORK_DIR,"include"),
+    join(FRAMEWORK_DIR,"src"),
     src_filter=["-<*>"] + [" +<%s>" % f for f in get_core_files()]
 )
