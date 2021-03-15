@@ -2,7 +2,8 @@ import sys
 from os.path import join
 from platform import system
 
-from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
+from SCons.Script import (AlwaysBuild, COMMAND_LINE_TARGETS, Default,
+                            DefaultEnvironment)
 
 def __getSize(size_type, env):
     return str(env.BoardConfig().get("build", {
@@ -58,6 +59,10 @@ env.Replace(
     PROGSUFFIX=".elf"
 )
 
+# Allow user to override via pre:script
+if env.get("PROGNAME", "program") == "program":
+    env.Replace(PROGNAME="firmware")
+
 def _ldflags_for_ihx(env, ldflags):
     ldflags = ["--out-fmt-ihx" if f == "--out-fmt-elf" else f for f in ldflags]
     return ldflags
@@ -67,10 +72,6 @@ env.Append(
     __ldflags_for_ihx=_ldflags_for_ihx,
     ldflags_for_ihx="${__ldflags_for_ihx(__env__, LINKFLAGS)}"
 )
-
-# Allow user to override via pre:script
-if env.get("PROGNAME", "program") == "program":
-    env.Replace(PROGNAME="firmware")
 
 #
 # Target: Build executable and linkable firmware
