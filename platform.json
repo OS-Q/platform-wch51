@@ -21,7 +21,7 @@
   },
   "frameworks": {
     "arduino": {
-      "package": "A13A",
+      "package": "A13",
       "script": "builder/frameworks/arduino.py"
     },
     "native": {
@@ -35,11 +35,11 @@
       "owner": "platformio",
       "version": "~1.30804.10766"
     },
-    "A13A": {
+    "A13": {
       "type": "framework",
       "optional": true,
       "owner": "OS-Q",
-      "version": "https://github.com/OS-Q/A13A.git"
+      "version": "https://github.com/OS-Q/A13.git"
     },
     "E13A": {
       "type": "framework",
