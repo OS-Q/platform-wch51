@@ -56,16 +56,12 @@ env.Replace(
     SIZEPRINTCMD='$SIZETOOL -d $SOURCES',
 
     PROGNAME="firmware",
-    PROGSUFFIX=".ihx"
+    PROGSUFFIX=".hex"
 )
 
 # Allow user to override via pre:script
 if env.get("PROGNAME", "program") == "program":
     env.Replace(PROGNAME="firmware")
-
-def _ldflags_for_ihx(env, ldflags):
-    ldflags = ["--out-fmt-ihx" if f == "--out-fmt-elf" else f for f in ldflags]
-    return ldflags
 
 env.Append(
     ASFLAGS=env.get("CFLAGS", [])[:]
