@@ -37,7 +37,7 @@ def get_core_files():
     src_files = []
     includes = result['out']
     for inc in includes.split(" "):
-        if "_" not in inc or ".h" not in inc or "conf" in inc:
+        if "_" not in inc or ".h" not in inc or ".c" in inc:
             continue
         src_files.append(basename(inc).replace(".h", ".c").strip())
 

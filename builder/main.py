@@ -41,7 +41,7 @@ env.Replace(
         "--code-size", board_config.get("build.size_code"),
         "--iram-size", board_config.get("build.size_iram"),
         "--xram-size", board_config.get("build.size_xram"),
-        "--out-fmt-elf"
+        "--out-fmt-ihx"
     ],
 
     LIBPATH=[
@@ -56,7 +56,7 @@ env.Replace(
     SIZEPRINTCMD='$SIZETOOL -d $SOURCES',
 
     PROGNAME="firmware",
-    PROGSUFFIX=".elf"
+    PROGSUFFIX=".ihx"
 )
 
 # Allow user to override via pre:script
@@ -68,9 +68,7 @@ def _ldflags_for_ihx(env, ldflags):
     return ldflags
 
 env.Append(
-    ASFLAGS=env.get("CFLAGS", [])[:],
-    __ldflags_for_ihx=_ldflags_for_ihx,
-    ldflags_for_ihx="${__ldflags_for_ihx(__env__, LINKFLAGS)}"
+    ASFLAGS=env.get("CFLAGS", [])[:]
 )
 
 #
