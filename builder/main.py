@@ -113,26 +113,9 @@ else:
     )
     env.Depends(target_firm, target_elf)
 
-
-if int(ARGUMENTS.get("PIOVERBOSE", 0)):
-    env.Prepend(UPLOADERFLAGS=["-v"])
-
-# parse manually SDCC flags
-if env.get("BUILD_FLAGS"):
-    _parsed, _unparsed = _parseSdccFlags(env.get("BUILD_FLAGS"))
-    env.Append(CCFLAGS=_parsed)
-    env['BUILD_FLAGS'] = _unparsed
-
-project_sdcc_flags = None
-if env.get("SRC_BUILD_FLAGS"):
-    project_sdcc_flags, _unparsed = _parseSdccFlags(env.get("SRC_BUILD_FLAGS"))
-    env['SRC_BUILD_FLAGS'] = _unparsed
-
 #
 # Target: Build executable and linkable firmware
 #
-target_firm = env.BuildProgram()
-
 if project_sdcc_flags:
     env.Import("projenv")
     projenv.Append(CCFLAGS=project_sdcc_flags)
