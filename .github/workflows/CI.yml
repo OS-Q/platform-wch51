@@ -54,6 +54,7 @@ jobs:
       matrix:
         example:
           - "native-blink"
+          - "native-uart"
         package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
