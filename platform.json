@@ -1,10 +1,8 @@
 {
   "name": "P12",
-  "title": "WCH CH55X (8051)",
-  "description": "The Intel MCS-51 (commonly termed 8051) is an internally Harvard architecture, complex instruction set computer (CISC) instruction set, single chip microcontroller (uC) series developed by Intel in 1980 for use in embedded systems.",
-  "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
-  "homepage": "https://github.com/platformio/platform-intel_mcs51",
-  "license": "Apache-2.0",
+  "title": "WCH E8051 CH55X MCU",
+  "description": "24MHz 8051 core && USB device.",
+  "homepage": "http://www.wch.cn/products/CH554.html",
   "engines": {
     "platformio": "^5"
   },
@@ -19,15 +17,21 @@
     "type": "git",
     "url": "https://github.com/OS-Q/P12.git"
   },
-  "version": "1.2.2",
+  "version": "1.0.0",
   "packages": {
     "toolchain-sdcc": {
       "type": "toolchain",
-      "version": "~1.30804.10766"
+      "owner": "platformio",
+      "version": "~1.40100.0",
+      "optionalVersions": [
+        "~1.30901.0"
+      ]
     },
-    "tool-stcgal": {
+    "tool-openocd": {
       "type": "uploader",
-      "version": "~1.104.0"
+      "optional": true,
+      "owner": "platformio",
+      "version": "~2.1000.0"
     }
   }
 }
