@@ -1,17 +1,22 @@
 language: python
 python:
-  - "3.7"
+  - "3.9"
+os:
+  - linux
+
+git:
+  depth: 1
 
 env:
-  - PLATFORMIO_PROJECT_DIR=examples/blink
-  - PLATFORMIO_PROJECT_DIR=examples/adc
+  - PLATFORMIO_PROJECT_DIR=examples/native-blink
+
 
 install:
-  - pip install -U https://github.com/OS-Q/S03/archive/master.zip
-  - platformio platform install file://.
+  - pip install platformio
+  - pio platform install file://.
 
 script:
-  - platformio run -d $PLATFORMIO_PROJECT_DIR
+  - pio run -d $PLATFORMIO_PROJECT_DIR
 
 notifications:
   email: false

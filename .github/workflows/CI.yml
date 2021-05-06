@@ -1,15 +1,16 @@
-name: PIO
+name: CI
 
 on:
   push:
     branches:
-      - pio
+      - master
     paths:
       - 'boards/**'
+      - 'extend/**'
       - 'builder/**'
       - 'examples/**'
-      - 'platform.json'
-      - 'platform.py'
+      - '**.json'
+      - '**.py'
 
 jobs:
   CodeCheck:
@@ -53,7 +54,7 @@ jobs:
       matrix:
         example:
           - "native-blink"
-
+        package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
@@ -68,9 +69,14 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install PIO
+      - name: Install qio
+        if: matrix.package == 'qio'
         run: |
-          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          qio platform install file://.
+      - name: Install pio
+        if: matrix.package == 'pio'
+        run: |
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
           pio platform install file://.
 

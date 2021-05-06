@@ -8,7 +8,6 @@
 [![Build Status](https://travis-ci.com/OS-Q/P12.svg?branch=master)](https://travis-ci.com/OS-Q/P12)
 [![Build Status](https://cloud.drone.io/api/badges/OS-Q/P12/status.svg)](https://cloud.drone.io/OS-Q/P12)
 
-
 ### [简介](https://github.com/OS-Q/P12/wiki)
 
 [P12](https://github.com/OS-Q/P12)
