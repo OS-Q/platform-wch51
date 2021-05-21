@@ -1,5 +1,5 @@
 {
-  "name": "P12",
+  "name": "P128",
   "title": "WCH E8051 CH55X MCU",
   "description": "24MHz 8051 core && USB device.",
   "homepage": "http://www.wch.cn/products/CH554.html",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P12.git"
+    "url": "https://github.com/OS-Q/P128.git"
   },
   "version": "1.0.0",
   "packages": {

@@ -9,7 +9,7 @@
     "size_heap": 128,
     "mcu": "ch554",
     "cpu": "mcs51",
-    "variant": "ch552"
+    "variant": "ch554"
   },
   "frameworks": [
     "arduino",
