@@ -1,6 +1,6 @@
 {
   "name": "P128",
-  "title": "WCH E8051 CH55X MCU",
+  "title": "WCH 8051 CH55X MCU",
   "description": "24MHz 8051 core && USB device.",
   "homepage": "http://www.wch.cn/products/CH554.html",
   "engines": {
@@ -18,14 +18,31 @@
     "url": "https://github.com/OS-Q/P128.git"
   },
   "version": "1.0.0",
+  "frameworks": {
+    "arduino": {
+      "package": "A128",
+      "script": "builder/frameworks/arduino.py"
+    },
+    "native": {
+      "package": "E128",
+      "script": "builder/frameworks/native.py"
+    }
+  },
   "packages": {
     "toolchain-sdcc": {
       "type": "toolchain",
       "owner": "platformio",
-      "version": "~1.40100.0",
-      "optionalVersions": [
-        "~1.30901.0"
-      ]
+      "version": "~1.40100.0"
+    },
+    "A128": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/A128.git"
+    },
+    "E128": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/E128.git"
     },
     "tool-openocd": {
       "type": "uploader",
