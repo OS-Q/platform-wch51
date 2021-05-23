@@ -5,11 +5,12 @@
 ****作者：Qitas
 ****版权：OS-Q
 *******************************************************************************/
-
 #include <stdio.h>
 #include "ch559.h"
 
+#ifndef FREQ_SYS
 #define FREQ_SYS              (56000000)
+#endif
 
 int UART0Receive()
 {

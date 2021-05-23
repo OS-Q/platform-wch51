@@ -1,6 +1,6 @@
 {
   "build": {
-    "core": "naked",
+    "core": "ch55xduino",
     "extra_flags": "-DNAKED_ARCH_MCS51",
     "f_cpu": "24000000L",
     "size_iram": 256,

@@ -4,10 +4,10 @@
     "extra_flags": "-DNAKED_ARCH_MCS51",
     "f_cpu": "56000000L",
     "size_iram": 256,
-    "size_xram": 6144,
-    "size_code": 65536,
+    "size_xram": 4096,
+    "size_code": 32768,
     "size_heap": 128,
-    "mcu": "ch559",
+    "mcu": "ch558",
     "cpu": "mcs51"
   },
   "frameworks": [
@@ -15,11 +15,11 @@
     "native"
   ],
   "upload": {
-    "maximum_ram_size": 6400,
-    "maximum_size": 65536,
+    "maximum_ram_size": 4352,
+    "maximum_size": 32768,
     "protocol": "ch55x"
   },
-  "name": "CH559",
-  "url": "http://www.wch-ic.com/products/CH559.html",
-  "vendor": "WCH"
+  "name": "CH558",
+  "url": "http://www.wch.cn/products/CH558.html",
+  "vendor": "OS-Q"
 }
