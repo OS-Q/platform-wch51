@@ -1,0 +1,25 @@
+{
+  "build": {
+    "core": "ch55xduino",
+    "extra_flags": "-DNAKED_ARCH_MCS51",
+    "f_cpu": "48000000L",
+    "size_iram": 256,
+    "size_xram": 2048,
+    "size_code": 65536,
+    "size_heap": 128,
+    "mcu": "ch549",
+    "cpu": "mcs51"
+  },
+  "frameworks": [
+    "arduino",
+    "native"
+  ],
+  "upload": {
+    "maximum_ram_size": 2304,
+    "maximum_size": 65536,
+    "protocol": "ch55x"
+  },
+  "name": "CH549",
+  "url": "http://www.wch.cn/products/CH549.html",
+  "vendor": "OS-Q"
+}

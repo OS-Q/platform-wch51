@@ -5,22 +5,22 @@
     "f_cpu": "24000000L",
     "size_iram": 256,
     "size_xram": 256,
-    "size_code": 16384,
+    "size_code": 10240,
     "size_heap": 128,
-    "mcu": "ch552",
+    "mcu": "ch551",
     "cpu": "mcs51",
-    "variant": "ch552"
+    "variant": "ch551"
   },
   "frameworks": [
     "arduino",
     "native"
   ],
   "upload": {
-    "maximum_ram_size": 1024,
-    "maximum_size": 16384,
+    "maximum_ram_size": 512,
+    "maximum_size": 10240,
     "protocol": "ch55x"
   },
-  "name": "ch552",
-  "url": "http://www.wch.cn/products/ch552.html",
+  "name": "CH551",
+  "url": "http://www.wch.cn/products/ch551.html",
   "vendor": "WCH"
 }
