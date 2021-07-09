@@ -75,6 +75,7 @@ jobs:
         run: |
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
           qio platform install file://.
+
       - name: Install pio
         if: matrix.package == 'pio'
         run: |
@@ -82,6 +83,13 @@ jobs:
           pio platform install file://.
 
       - name: Build examples
+        if: success()
         working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
+
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: upload_${{ matrix.package }}-${{ matrix.example }}
+          path: examples/${{ matrix.example }}
