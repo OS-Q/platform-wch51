@@ -6,7 +6,7 @@ env = DefaultEnvironment()
 platform = env.PioPlatform()
 board_config = env.BoardConfig()
 
-FRAMEWORK_DIR = platform.get_package_dir("A128")
+FRAMEWORK_DIR = platform.get_package_dir("F151")
 assert isdir(FRAMEWORK_DIR)
 
 env.Append(
