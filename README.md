@@ -3,15 +3,13 @@
 [![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
 [![Build Status](https://github.com/OS-Q/P151/workflows/CI/badge.svg)](https://github.com/OS-Q/P151/actions/workflows/CI.yml)
-[![Build Status](https://circleci.com/gh/OS-Q/P151.svg?style=svg)](https://circleci.com/gh/OS-Q/P151)
-[![Build Status](https://cloud.drone.io/api/badges/OS-Q/P151/status.svg)](https://cloud.drone.io/OS-Q/P151)
 
 ### [简介](https://github.com/OS-Q/P151/wiki)
 
 [P151](https://github.com/OS-Q/P151) 适配 [WCH](http://www.wch.cn/products/category/5.html) 8051系列单片机
 
-| xin型号 | TIM | UART | ADC | PWM | ROM  | RAM | DATA | FREQ | USBD | USBH | USBC |
-| ------- | --- | ---- | --- | --- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 芯平台 | TIM | UART | ADC | PWM | ROM  | RAM | DATA | FREQ | USBD | USBH | USBC |
+| ----- | --- | ---- | --- | --- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | [CH551](http://www.wch.cn/products/CH551.html) | √   | √    | √   | √   |  10K | 512B | 128B | 24M  | √    | X    | X   |
 | [CH552](http://www.wch.cn/products/CH552.html) | √   | √    | √   | √   |  16K |  1K | 128B | 24M  | √    | X    | √   |
 | [CH554](http://www.wch.cn/products/CH554.html) | √   | √    | √   | √   |  16K |  1K | 128B | 24M  | √    | √    | √   |
