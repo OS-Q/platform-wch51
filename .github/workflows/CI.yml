@@ -55,6 +55,8 @@ jobs:
         example:
           - "blink"
           - "uart"
+          - "arduino-hx712"
+          - "arduino-ads1255"
         package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
