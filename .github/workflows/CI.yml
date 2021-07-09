@@ -34,7 +34,7 @@ jobs:
         max_ctu_depth: 2
         std: c11
         output_file: ./codecheck.txt
-        other_options: --bug-hunting --verbose --std=c11
+        other_options: --bug-hunting --verbose --std=c99
 
     - name: report
       uses: Qful/check-action@master
@@ -55,6 +55,7 @@ jobs:
         example:
           - "native-blink"
           - "native-uart"
+          - "native-test"
         package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
