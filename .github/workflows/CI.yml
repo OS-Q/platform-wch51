@@ -53,9 +53,8 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - "native-blink"
-          - "native-uart"
-          - "native-test"
+          - "blink"
+          - "uart"
         package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -92,5 +91,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: upload_${{ matrix.package }}-${{ matrix.example }}
+          name: upload_${{ matrix.example }}
           path: examples/${{ matrix.example }}
