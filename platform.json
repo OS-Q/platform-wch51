@@ -1,26 +1,27 @@
 {
-  "name": "P151",
-  "title": "OS-Q WCH 8051",
-  "description": "WCH 8051 CH5XX系列单片机开发平台",
-  "homepage": "http://special.wch.cn/zh_cn/mcu/",
-  "engines": {
-    "platformio": "^5"
-  },
+  "name": "wch51",
+  "title": "WCH 8051 MCU",
+  "description": "WCH 8051 Core && USB device.",
+  "homepage": "https://special.wch.cn/zh_cn/mcu/",
+  "license": "Apache-2.0",
   "keywords": [
-    "OS-Q",
-    "dev-platform",
-    "WCH",
-    "CH55x",
-    "8051"
+      "dev-platform",
+      "OS-Q",
+      "WCH",
+      "8051",
+      "CISC"
   ],
+  "engines": {
+    "platformio": "^6"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P151.git"
+    "url": "https://github.com/OS-Q/platform-wch51.git"
   },
-  "version": "1.0.0",
+  "version": "2.1.0",
   "frameworks": {
     "arduino": {
-      "package": "F151",
+      "package": "framework-wch",
       "script": "builder/frameworks/arduino.py"
     },
     "native": {
@@ -32,23 +33,29 @@
     "toolchain-sdcc": {
       "type": "toolchain",
       "owner": "platformio",
-      "version": "~1.40100.0"
+      "version": ">=1.40100.0,<1.40201.0"
     },
-    "F151": {
+    "framework-wch": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/F151.git"
+      "version": "https://github.com/OS-Q/framework-wch.git"
     },
     "F152": {
       "type": "framework",
       "optional": true,
       "version": "https://github.com/OS-Q/F152.git"
     },
-    "tool-openocd": {
+    "tool-stcgal": {
       "type": "uploader",
       "optional": true,
       "owner": "platformio",
-      "version": "~2.1000.0"
+      "version": "~1.106.0"
+    },
+    "tool-vnproch55x": {
+      "type": "uploader",
+      "optional": true,
+      "owner": "platformio",
+      "version": "~1.0.220407"
     }
   }
 }

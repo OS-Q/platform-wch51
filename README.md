@@ -1,22 +1,22 @@
-﻿# [P151](https://github.com/OS-Q/P151)
+# [PIO WCH-51](https://github.com/OS-Q/pio)
 
-[![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
+[![Build Status](https://github.com/OS-Q/platform-wch51/workflows/CI/badge.svg)](https://github.com/OS-Q/platform-wch51/actions/workflows/CI.yml)
 
-[![Build Status](https://github.com/OS-Q/P151/workflows/CI/badge.svg)](https://github.com/OS-Q/P151/actions/workflows/CI.yml)
+| Framework | Arduino |
+| -------- | ------ |
+| [framework-wch](https://github.com/OS-Q/framework-wch) | √ |
 
-平台[P151](https://github.com/OS-Q/P151) 基于 [WCH 8051](http://www.wch.cn/products/category/5.html) 系列单片机
 
-| 芯平台 | TIM | UART | ADC | PWM | ROM  | RAM | DATA | CORE | USBD | USBH | USBC |
+| [MCU](https://github.com/SoCXin) | ROM | RAM | DATA | Fmax | USBD | USBH | USBC | TIM | UART | ADC | PWM |
 | ----- | --- | ---- | --- | --- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| [CH551](http://www.wch.cn/products/CH551.html) | 3   | 1   | X | 2   |  10K | 512B | 128B | 24M  | √    | X    | X   |
-| [CH552](https://github.com/SoCXin/CH552) | 3   | 2   | 4x8b | 2   |  16K |  1K | 128B | 24M  | √    | X    | √   |
-| [CH554](https://github.com/SoCXin/CH554) | 3   | 2   | 4x8b | 2   |  16K |  1K | 128B | 24M  | √    | √    | √   |
-| [CH558](http://www.wch.cn/products/CH558.html) | 4   | 2   | 8x11b | 3   |  32K |  4K | 5KB | 56M  | √    | X    | X   |
-| [CH559](http://www.wch.cn/products/CH559.html) | 4   | 2   | 8x11b | 3   |  63K |  6K | 1KB | 56M  | √    | √    | X   |
-| [CH546](http://www.wch.cn/products/CH546.html) | 3   | 1   | 8x12b | 2   |  35K |  1K | 1KB | 48M  | √    | X    | X   |
-| [CH547](http://www.wch.cn/products/CH547.html) | 3   | 4   | 12x12b | 4   |  63K |  1K | 1KB | 48M  | √    | X    | X   |
-| [CH548](http://www.wch.cn/products/CH548.html) | 3   | 2   | 16x12b | 8   |  63K |  2K | 1KB | 48M  | √    | √    | √   |
-| [CH549](https://github.com/SoCXin/CH549) | 3   | 4   | 16x12b | 8   |  63K |  2K | 1KB | 48M  | √    | √    | √   |
+| [CH551](http://www.wch.cn/products/CH551.html) |  10K | 512B | 128B | 24M  | √    | X    | X   | 3   | 1   | X | 2   |
+| [CH552](https://github.com/SoCXin/CH552) | 16K |  1K | 128B | 24M  | √    | X    | √   | 3   | 2   | 4x8b | 2   |
+| [CH554](https://github.com/SoCXin/CH554) | 16K |  1K | 128B | 24M  | √    | √    | √   | 3   | 2   | 4x8b | 2   |
+| [CH557](https://github.com/SoCXin/CH557) | 32K |  4K | 5KB | 56M  | √    | X    | X   | 4   | 2   | 8x11b | 3   |
+| [CH559](https://github.com/SoCXin/CH559) | 63K |  6K | 1KB | 56M  | √    | √    | X   | 4   | 2   | 8x11b | 3   |
+| [CH545](https://github.com/SoCXin/CH545) | 35K |  1K | 1KB | 48M  | √    | X    | X   | 3   | 1   | 8x12b | 2   |
+| [CH547](http://www.wch.cn/products/CH547.html) | 63K |  1K | 1KB | 48M  | √    | X    | X   | 3   | 4   | 12x12b | 4   |
+| [CH548](http://www.wch.cn/products/CH548.html) | 63K |  2K | 1KB | 48M  | √    | √    | √   | 3   | 2   | 16x12b | 8   |
+| [CH549](https://github.com/SoCXin/CH549) | 63K |  2K | 1KB | 48M  | √    | √    | √   | 3   | 4   | 16x12b | 8   |
 
-
-### [源圈OS-Q](http://www.OS-Q.com)
+Base on [msc51](https://github.com/OS-Q/platform-msc51), for more information, please navigate to [PIO Documentation](https://doc.os-q.com/pio/platforms/mcs51.html).

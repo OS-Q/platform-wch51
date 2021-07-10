@@ -58,31 +58,23 @@ jobs:
           - "native-blink"
           # - "arduino-hx712"
           # - "arduino-ads1255"
-        package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: "recursive"
           fetch-depth: 1
 
-      - name: Set up Python
-        uses: actions/setup-python@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
-      - name: Install qio
-        if: matrix.package == 'qio'
-        run: |
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install file://.
-
       - name: Install pio
-        if: matrix.package == 'pio'
         run: |
-          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pip install -U https://github.com/OS-Q/pio/archive/main.zip
           pio platform install file://.
 
       - name: Build examples
@@ -91,8 +83,8 @@ jobs:
         run: |
           pio run -d ${{ matrix.example }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         if: success()
         with:
-          name: upload_${{ matrix.example }}
+          name: ${{ matrix.example }}
           path: examples/${{ matrix.example }}

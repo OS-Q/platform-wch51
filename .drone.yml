@@ -1,24 +1,13 @@
 kind: pipeline
-name: OSQ
+name: PIO
 
 steps:
-- name: QIO
+- name: build
   image: python:3
   commands:
   - apt update
   - apt install -y git
   - git submodule update --init --recursive
-  - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-  - qio platform install file://.
-  - pio run -d examples/native-blink
-
-
-- name: PIO
-  image: python:3
-  commands:
-  - apt update
-  - apt install -y git
-  - git submodule update --init --recursive
-  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
+  - pip install -U https://github.com/OS-Q/pio/archive/main.zip
   - pio platform install file://.
   - pio run -d examples/native-blink
