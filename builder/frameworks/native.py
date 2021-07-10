@@ -21,6 +21,7 @@ env.Append(
 
     CPPPATH=[
         join(FRAMEWORK_DIR,"inc"),
+        join(FRAMEWORK_DIR,"include"),
         "$PROJECTSRC_DIR",
     ]
 )

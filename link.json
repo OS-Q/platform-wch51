@@ -1,6 +1,6 @@
 {
   "name": "P151",
-  "title": "WCH 8051 CH55X MCU",
+  "title": "OS-Q WCH 8051",
   "description": "24MHz 8051 core && USB device.",
   "homepage": "http://www.wch.cn/products/CH554.html",
   "engines": {
