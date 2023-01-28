@@ -19,4 +19,4 @@
 | [CH548](http://www.wch.cn/products/CH548.html) | 63K |  2K | 1KB | 48M  | √    | √    | √   | 3   | 2   | 16x12b | 8   |
 | [CH549](https://github.com/SoCXin/CH549) | 63K |  2K | 1KB | 48M  | √    | √    | √   | 3   | 4   | 16x12b | 8   |
 
-Base on [msc51](https://github.com/OS-Q/platform-msc51), for more information, please navigate to [PIO Documentation](https://doc.os-q.com/pio/platforms/mcs51.html).
+Base on [mcs51](https://github.com/OS-Q/platform-mcs51), for more information, please navigate to [PIO Documentation](https://doc.os-q.com/pio/platforms/mcs51.html).
