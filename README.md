@@ -2,9 +2,10 @@
 
 [![Build Status](https://github.com/OS-Q/platform-wch51/workflows/CI/badge.svg)](https://github.com/OS-Q/platform-wch51/actions/workflows/CI.yml)
 
-| Framework | Arduino |
+| Framework | 简介 |
 | -------- | ------ |
-| [framework-wch](https://github.com/OS-Q/framework-wch) | √ |
+| [framework-wch51](https://github.com/OS-Q/framework-wch51) | 官方库 |
+| [framework-arduinowch51](https://github.com/OS-Q/framework-arduinowch51) | Arduino |
 
 
 | [MCU](https://github.com/SoCXin) | ROM | RAM | DATA | Fmax | USBD | USBH | USBC | TIM | UART | ADC | PWM |

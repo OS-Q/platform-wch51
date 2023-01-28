@@ -21,7 +21,7 @@
   "version": "2.1.0",
   "frameworks": {
     "arduino": {
-      "package": "framework-wch",
+      "package": "framework-arduinowch51",
       "script": "builder/frameworks/arduino.py"
     },
     "native": {
@@ -35,10 +35,10 @@
       "owner": "platformio",
       "version": ">=1.40100.0,<1.40201.0"
     },
-    "framework-wch": {
+    "framework-arduinowch51": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/framework-wch.git"
+      "version": "https://github.com/OS-Q/framework-arduinowch51.git"
     },
     "framework-wch51": {
       "type": "framework",
